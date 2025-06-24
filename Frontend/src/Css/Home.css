@@ -117,3 +117,47 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: rgb(48, 47, 47);
 }
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  min-height: 300px;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  background-color: #fdf2f2;
+  max-width: 500px;
+}
+
+.login-button, .retry-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover, .retry-button:hover {
+  background-color: #2980b9;
+}
+
+.retry-button {
+  background-color: #27ae60;
+}
+
+.retry-button:hover {
+  background-color: #229954;
+}
