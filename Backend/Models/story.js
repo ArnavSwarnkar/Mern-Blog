@@ -1,4 +1,4 @@
-
+//backend/Middlewares/Models/Story.js
 const mongoose = require("mongoose")
 const Comment = require("./comment")
 const slugify = require("slugify")

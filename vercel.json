@@ -1,0 +1,34 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://mern-blog-sr9a.onrender.com/api/$1"
+    },
+    {
+      "source": "/auth/(.*)",
+      "destination": "https://mern-blog-sr9a.onrender.com/auth/$1"
+    },
+    {
+      "source": "/story/(.*)",
+      "destination": "https://mern-blog-sr9a.onrender.com/story/$1"
+    },
+    {
+      "source": "/user/(.*)",
+      "destination": "https://mern-blog-sr9a.onrender.com/user/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+      ]
+    }
+  ]
+}

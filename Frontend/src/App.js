@@ -99,11 +99,9 @@
 // }
 
 // export default App;
-
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import AuthContextProvider from './Context/AuthContext'; // Import the provider
+import AuthContextProvider from './Context/AuthContext';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import Home from "./components/GeneralScreens/Home";
 import LoginScreen from "./components/AuthScreens/LoginScreen";
@@ -126,40 +124,27 @@ const App = () => {
             <Router>
                 <div className="App">
                     <Routes>
+                        {/* Routes with Header Layout */}
                         <Route path="/" element={<LayoutsWithHeader />}>
-                            <Route path="/" element={<PrivateRoute />}>
+                            {/* Protected Routes */}
+                            <Route element={<PrivateRoute />}>
                                 <Route index element={<Home />} />
+                                <Route path="addstory" element={<AddStory />} />
+                                <Route path="profile" element={<Profile />} />
+                                <Route path="edit_profile" element={<EditProfile />} />
+                                <Route path="change_Password" element={<ChangePassword />} />
+                                <Route path="readList" element={<ReadListPage />} />
+                                <Route path="story/:slug/edit" element={<EditStory />} />
                             </Route>
-
-                            <Route path="/story/:slug" element={<DetailStory />} />
-
-                            <Route path="/addstory" element={<PrivateRoute />}>
-                                <Route index element={<AddStory />} />
-                            </Route>
-
-                            <Route path="/profile" element={<PrivateRoute />}>
-                                <Route index element={<Profile />} />
-                            </Route>
-
-                            <Route path="/edit_profile" element={<PrivateRoute />}>
-                                <Route index element={<EditProfile />} />
-                            </Route>
-
-                            <Route path="/change_Password" element={<PrivateRoute />}>
-                                <Route index element={<ChangePassword />} />
-                            </Route>
-
-                            <Route path="/story/:slug/edit" element={<PrivateRoute />}>
-                                <Route index element={<EditStory />} />
-                            </Route>
-
-                            <Route path="/readList" element={<PrivateRoute />}>
-                                <Route index element={<ReadListPage />} />
-                            </Route>
-
+                            
+                            {/* Public Story Detail Route - NO LEADING SLASH */}
+                            <Route path="story/:slug" element={<DetailStory />} />
+                            
+                            {/* 404 Route - MUST be last */}
                             <Route path="*" element={<NotFound />} />
                         </Route>
 
+                        {/* Auth Routes (No Header) */}
                         <Route path="/login" element={<LoginScreen />} />
                         <Route path="/register" element={<RegisterScreen />} />
                         <Route path="/forgotpassword" element={<ForgotPasswordScreen />} />

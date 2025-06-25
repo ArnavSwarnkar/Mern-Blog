@@ -1,11 +1,11 @@
 const express = require("express");
-const {
-  register,
+const { 
+  register, 
   login,
-  forgotpassword,
   resetpassword,
+  forgotpassword,
   getPrivateData
-} = require("../Controllers/auth");
+} = require('../Controllers/auth.js');
 const { getAccessToRoute } = require("../Middlewares/Authorization/auth");
 
 const router = express.Router();

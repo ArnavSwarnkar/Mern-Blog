@@ -117,7 +117,7 @@ import { AuthContext } from '../../Context/AuthContext';
 const Header = () => {
     const bool = localStorage.getItem("authToken") ? true : false
     const [auth, setAuth] = useState(bool)
-    const { activeUser } = useContext(AuthContext)
+    const { activeUser, logout } = useContext(AuthContext)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
@@ -130,7 +130,22 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("authToken");
+        if (logout) {
+            logout(); // Use logout from context if available
+        }
         navigate('/')
+    };
+
+    // Get API URL for images
+    const getImageUrl = (photo) => {
+        if (!photo) return '/default-avatar.png';
+        const apiUrl = process.env.REACT_APP_API_URL || 'https://mern-blog-sr9a.onrender.com';
+        return `${apiUrl}/userPhotos/${photo}`;
+    };
+
+    const handleImageError = (e) => {
+        e.target.src = '/default-avatar.png';
+        e.target.onerror = null; // Prevent infinite loop
     };
 
     return (
@@ -154,13 +169,15 @@ const Header = () => {
                                 </span>
                             </Link>
 
-                            <div className='header-profile-wrapper '>
+                            <div className='header-profile-wrapper'>
                                 {loading ? 
                                     <SkeletonElement type="minsize-avatar" />
                                     :
                                     <img 
-                                        src={`/userPhotos/${activeUser?.photo || 'default-avatar.png'}`} 
-                                        alt={activeUser?.username || 'User'} 
+                                        src={activeUser?.photo ? getImageUrl(activeUser.photo) : '/default-avatar.png'}
+                                        alt={activeUser?.username || 'User Profile'}
+                                        onError={handleImageError}
+                                        className="profile-avatar"
                                     />
                                 }
 

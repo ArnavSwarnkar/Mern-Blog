@@ -272,3 +272,53 @@ li.story-readtime {
     color: #0063a5;
     cursor: pointer;
 }
+
+.story-error {
+  text-align: center;
+  padding: 3rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.story-error h2 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.story-error p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.detailStory-banner img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.detailStory-userInfo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
