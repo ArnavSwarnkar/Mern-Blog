@@ -188,9 +188,9 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
-app.use('/userPhotos', express.static(path.join(__dirname, 'public/userPhotos')));
-app.use('/storyImages', express.static(path.join(__dirname, 'public/storyImages')));
+// // Serve static files
+// app.use('/userPhotos', express.static(path.join(__dirname, 'public/userPhotos')));
+// app.use('/storyImages', express.static(path.join(__dirname, 'public/storyImages')));
 
 // Health check
 app.get('/health', (req, res) => {
@@ -232,4 +232,19 @@ process.on("unhandledRejection", (err, promise) => {
 process.on("uncaughtException", (err) => {
   console.log(`Uncaught Exception: ${err}`);
   server.close(() => process.exit(1));
+});
+
+
+app.use('/userPhotos', express.static(path.join(__dirname, 'public/userPhotos')));
+app.use('/storyImages', express.static(path.join(__dirname, 'public/storyImages')));
+
+// Add CORS headers for images
+app.use('/userPhotos', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+app.use('/storyImages', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
 });
