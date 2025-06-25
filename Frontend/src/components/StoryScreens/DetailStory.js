@@ -11,6 +11,7 @@ import { FiEdit } from 'react-icons/fi'
 import { FaRegComment } from 'react-icons/fa'
 import { BsBookmarkPlus, BsThreeDots, BsBookmarkFill } from 'react-icons/bs'
 import CommentSidebar from '../CommentScreens/CommentSidebar';
+import { getImageUrl } from '../../utils/imageUtils';
 
 const DetailStory = () => {
   const [likeStatus, setLikeStatus] = useState(false)
@@ -174,7 +175,7 @@ const DetailStory = () => {
                   <ul>
                     {story.author &&
                       <li className='story-author-info'>
-                        <img src={`/userPhotos/${story.author.photo}`} alt={story.author.username} />
+                        <img src={getImageUrl(story.author.photo, 'userPhotos')} alt={story.author.username} />
                         <span className='story-author-username'>{story.author.username}  </span>
                       </li>
                     }
@@ -234,7 +235,10 @@ const DetailStory = () => {
               <div className='story-content' >
 
                 <div className="story-banner-img">
-                  <img src={`/storyImages/${story.image}`} alt={story.title} />
+                  <img 
+                    src={getImageUrl(story.image, 'storyImages')} 
+                    alt={story.title} 
+                  />
 
                 </div>
 
