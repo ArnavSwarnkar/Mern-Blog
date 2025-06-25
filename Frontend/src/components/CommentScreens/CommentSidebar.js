@@ -18,11 +18,11 @@ const CommentSidebar = ({ slug, sidebarShowStatus, setSidebarShowStatus, activeU
   const getStoryComments = async () => {
     try {
       const { data } = await axios.get(`/comment/${slug}/getAllComment`)
-      setCommentList(data.data)
-      setCount(data.count)
+      setCommentList(data?.data || [])
+      setCount(data?.count || 0)
     }
     catch (error) {
-      console.log(error.response.data.error);
+      console.log(error.response?.data?.error || error.message);
     }
   }
 
