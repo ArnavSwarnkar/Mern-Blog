@@ -46,7 +46,7 @@ const DetailStory = () => {
       }
 
       try {
-        const { data } = await API.get("/story/the-future-of-machine-learning-shaping-the-intelligence-of-tomorrow");
+        const { data } = await API.get(`/story/${slug}`);
         setStory(data.data);
         setLikeStatus(data.likeStatus);
         setLikeCount(data.data.likeCount);
@@ -86,7 +86,7 @@ const DetailStory = () => {
     }, 1500)
 
     try {
-      const { data } = await API.post(`/story/the-future-of-machine-learning-shaping-the-intelligence-of-tomorrow/like`, { activeUser }, {
+      const { data } = await API.post(`/story/${slug}/like`, { activeUser }, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("authToken")}`,
