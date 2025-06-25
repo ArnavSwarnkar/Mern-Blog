@@ -210,11 +210,11 @@ app.use(customErrorHandler);
 // Serve React build files (ONLY in production)
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from React build
-  app.use(express.static(path.join(__dirname, '../frontend/public')));
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
   
   // SPA Fallback - MUST be last route
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
   });
 }
 
