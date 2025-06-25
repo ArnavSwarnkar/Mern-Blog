@@ -12,6 +12,7 @@ import { FaRegComment } from 'react-icons/fa'
 import { BsBookmarkPlus, BsThreeDots, BsBookmarkFill } from 'react-icons/bs'
 import CommentSidebar from '../CommentScreens/CommentSidebar';
 import { getImageUrl } from '../../utils/imageUtils';
+import ImageWithFallback from '../GeneralScreens/ImageWithFallback';
 
 const DetailStory = () => {
   const [likeStatus, setLikeStatus] = useState(false)
@@ -175,7 +176,12 @@ const DetailStory = () => {
                   <ul>
                     {story.author &&
                       <li className='story-author-info'>
-                        <img src={getImageUrl(story.author.photo, 'userPhotos')} alt={story.author.username} />
+                        <ImageWithFallback 
+                          src={getImageUrl(story.author.photo, 'userPhotos')} 
+                          alt={story.author.username}
+                          fallback="/default-avatar.png"
+                          className="author-avatar"
+                        />
                         <span className='story-author-username'>{story.author.username}  </span>
                       </li>
                     }
@@ -235,10 +241,10 @@ const DetailStory = () => {
               <div className='story-content' >
 
                 <div className="story-banner-img">
-                  <img 
+                  {/* <img 
                     src={getImageUrl(story.image, 'storyImages')} 
                     alt={story.title} 
-                  />
+                  /> */}
 
                 </div>
 

@@ -156,7 +156,7 @@ connectDatabase();
 
 const app = express();
 
-// CORS configuration
+// CORS configuration (keep your existing CORS setup)
 const allowedOrigins = [
   "https://mern-blog-eta-flax.vercel.app",
   "https://mern-blog-9t2ak9cwl-arnav-swarnkars-projects.vercel.app",
@@ -188,9 +188,22 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// // Serve static files
-// app.use('/userPhotos', express.static(path.join(__dirname, 'public/userPhotos')));
-// app.use('/storyImages', express.static(path.join(__dirname, 'public/storyImages')));
+// MOVE STATIC FILES BEFORE API ROUTES
+app.use('/userPhotos', express.static(path.join(__dirname, 'public/userPhotos')));
+app.use('/storyImages', express.static(path.join(__dirname, 'public/storyImages')));
+
+// Add proper CORS headers for static files
+app.use('/userPhotos', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+  next();
+});
+
+app.use('/storyImages', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+  next();
+});
 
 // Health check
 app.get('/health', (req, res) => {
@@ -201,7 +214,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API routes FIRST
+// API routes AFTER static files
 app.use("/", IndexRoute);
 
 // Error handling middleware
@@ -209,10 +222,8 @@ app.use(customErrorHandler);
 
 // Serve React build files (ONLY in production)
 if (process.env.NODE_ENV === 'production') {
-  // Serve static files from React build
   app.use(express.static(path.join(__dirname, '../frontend/build')));
   
-  // SPA Fallback - MUST be last route
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
   });
@@ -222,29 +233,4 @@ const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} : ${process.env.NODE_ENV}`);
-});
-
-process.on("unhandledRejection", (err, promise) => {
-  console.log(`Logged Error : ${err}`);
-  server.close(() => process.exit(1));
-});
-
-process.on("uncaughtException", (err) => {
-  console.log(`Uncaught Exception: ${err}`);
-  server.close(() => process.exit(1));
-});
-
-
-app.use('/userPhotos', express.static(path.join(__dirname, 'public/userPhotos')));
-app.use('/storyImages', express.static(path.join(__dirname, 'public/storyImages')));
-
-// Add CORS headers for images
-app.use('/userPhotos', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
-
-app.use('/storyImages', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
 });
