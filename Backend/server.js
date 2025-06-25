@@ -214,7 +214,7 @@ if (process.env.NODE_ENV === 'production') {
   
   // SPA Fallback - MUST be last route
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/public', 'index.html'));
   });
 }
 
