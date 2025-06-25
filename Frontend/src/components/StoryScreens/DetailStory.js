@@ -235,10 +235,10 @@ const DetailStory = () => {
               <div className='story-content' >
 
                 <div className="story-banner-img">
-                  {/* <img 
+                  <img 
                     src={getImageUrl(story.image, 'storyImages')} 
                     alt={story.title} 
-                  /> */}
+                  />
 
                 </div>
 
