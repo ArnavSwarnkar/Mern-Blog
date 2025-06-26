@@ -1,0 +1,91 @@
+trigger:
+  - main
+
+pool:
+  name: arnav
+  demands:
+    - Agent.Name -equals arnav
+
+steps:
+  - checkout: self
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '14.x'
+    displayName: 'Install Node.js 14'
+
+  - script: |
+      cd Backend
+      npm install
+    displayName: 'Install npm dependencies'
+    
+  - script: |
+      cd Backend
+      npm test
+    displayName: 'Run tests'
+    continueOnError: true
+
+  - task: SonarQubePrepare@7
+    inputs:
+      SonarQube: 'sonar'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'CI_CD'
+      cliProjectName: 'CI_CD'
+      cliSources: 'Backend'
+    displayName: 'Prepare SonarQube Analysis'
+
+  - task: SonarQubeAnalyze@7
+    displayName: 'Run SonarQube Analysis'
+
+  - task: SonarQubePublish@7
+    inputs:
+      pollingTimeoutSec: '300'
+    displayName: 'Publish SonarQube Results'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'Backend/'  # or any directory with your SonarQube output
+      ArtifactName: 'SonarQubeReport'
+      publishLocation: 'Container'
+    displayName: 'Upload SonarQube Report to Artifacts'
+
+  - task: dependency-check-build-task@6
+    displayName: 'Run OWASP Dependency-Check'
+    inputs:
+      projectName: 'CI_CD'
+      scanPath: 'Backend'
+      format: 'HTML'
+      outputDirectory: '$(Build.ArtifactStagingDirectory)/dependency-check-report'
+
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'docker'
+      repository: arnavswarnkar/mern-blog
+      command: buildAndPush
+      Dockerfile: Backend/Dockerfile
+      buildContext: Backend
+      tags: |
+        latest
+    displayName: 'Build and Push Docker Image' 
+  - task: trivy@2
+    inputs:
+      version: 'latest'
+      type: 'fs'
+      target: 'Backend/'
+      scanners: 'misconfig'
+      severities: 'CRITICAL, HIGH, MEDIUM'
+      ignoreUnfixed: true
+      ignoreScanErrors: true
+      continueOnError: true
+      exitCode: '0'
+      reports: 'html:$(Build.ArtifactStagingDirectory)/trivy-config-report.html'
+      publish: false
+    displayName: 'Run Trivy Misconfiguration Scan'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'TrivyMisconfigReport'
+      publishLocation: 'Container'
+    displayName: 'Publish Trivy Misconfiguration Report'
