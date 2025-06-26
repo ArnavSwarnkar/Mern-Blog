@@ -33,6 +33,8 @@ steps:
       cliProjectKey: 'CI_CD'
       cliProjectName: 'CI_CD'
       cliSources: 'Backend'
+      extraProperties: |
+        sonar.branch.name=
     displayName: 'Prepare SonarQube Analysis'
 
   - task: SonarQubeAnalyze@7
@@ -45,7 +47,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: 'Backend/'  # or any directory with your SonarQube output
+      PathtoPublish: 'Backend/'  
       ArtifactName: 'SonarQubeReport'
       publishLocation: 'Container'
     displayName: 'Upload SonarQube Report to Artifacts'
